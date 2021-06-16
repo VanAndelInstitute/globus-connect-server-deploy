@@ -11,6 +11,7 @@ ARG REPO_SUFFIX=installers/repo/rpm/globus-repo-latest.noarch.rpm
 RUN \
     dnf install -y sudo                                                                   ;\
     dnf install -y glibc-langpack-en                                                      ;\
+    dnf install -y sssd-client                                                            ;\
     dnf install -y 'dnf-command(config-manager)'                                          ;\
     dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm ;\
     if [ -n "$USE_UNSTABLE_REPOS" ]; then                                                  \
