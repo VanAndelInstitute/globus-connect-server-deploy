@@ -1,0 +1,22 @@
+version: '3.4'
+
+#x-variables:
+#    - &globus-ids
+#        GLOBUS_CLIENT_ID:     # from ./.env
+#        GLOBUS_CLIENT_SECRET: # from ./.env
+#        DEPLOYMENT_KEY:       # from ./.env
+
+services:
+   globus:
+      environment:
+         - NODE_SETUP_ARGS= -i 155.130.133.58
+      container_name: globus_server
+      image: vanandelinstitute/globusconnectserver
+      network_mode: host
+      env_file:
+       - 'globus.env'
+      volumes:
+         - /data/globus/data:/data
+         - /data/globus/logs:/logs
+
+
