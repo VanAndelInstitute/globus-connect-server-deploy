@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM centos:8
 
 LABEL maintainer="support@globus.org"
 
@@ -6,35 +6,29 @@ ARG USE_UNSTABLE_REPOS
 ARG USE_TESTING_REPOS
 
 ARG REPO_PREFIX=https://downloads.globus.org/globus-connect-server
-ARG REPO_SUFFIX=installers/repo/deb/globus-repo_latest_all.deb
-
-ENV LC_ALL C.UTF-8
-ENV DEBIAN_FRONTEND="noninteractive"
+ARG REPO_SUFFIX=installers/repo/rpm/globus-repo-latest.noarch.rpm
 
 RUN \
-    apt-get update                                                                                       ;\
-    apt-get install -y curl gnupg dialog apt-utils sudo psmisc                                           ;\
-    apt-get -y install tzdata                                                                            ;\
-    if [ -n "$USE_UNSTABLE_REPOS" ]; then                                                                 \
-        echo "Using unstable package repositories!"                                                      ;\
-        curl -LOs $REPO_PREFIX/stable/$REPO_SUFFIX                                                       ;\
-        dpkg -i globus-repo_latest_all.deb                                                               ;\
-        sed -i /etc/apt/sources.list.d/globus-connect-server-unstable*.list -e 's/^# deb /deb /'         ;\
-        sed -i /etc/apt/sources.list.d/globus-connect-server-stable*.list -e 's/^deb /# deb /'           ;\
-    elif [ -n "$USE_TESTING_REPOS" ]; then                                                                \
-        echo "Using testing package repositories!"                                                       ;\
-        curl -LOs $REPO_PREFIX/testing/$REPO_SUFFIX                                                      ;\
-        dpkg -i globus-repo_latest_all.deb                                                               ;\
-        sed -i /etc/apt/sources.list.d/globus-connect-server-testing*.list -e 's/^# deb /deb /'          ;\
-        sed -i /etc/apt/sources.list.d/globus-connect-server-stable*.list -e 's/^deb /# deb /'           ;\
-    else                                                                                                  \
-        echo "Using stable package repositories!"                                                        ;\
-        curl -LOs $REPO_PREFIX/stable/$REPO_SUFFIX                                                       ;\
-        dpkg -i globus-repo_latest_all.deb                                                               ;\
-    fi                                                                                                   ;\
-    APT_KEY_DONT_WARN_ON_DANGEROUS_USAGE=1 apt-key add /usr/share/globus-repo/RPM-GPG-KEY-Globus         ;\
-    apt-get update                                                                                       ;\
-    apt-get install -y globus-connect-server54
+    dnf install -y sudo                                                                   ;\
+    dnf install -y glibc-langpack-en                                                      ;\
+    dnf install -y 'dnf-command(config-manager)'                                          ;\
+    dnf install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm ;\
+    if [ -n "$USE_UNSTABLE_REPOS" ]; then                                                  \
+        echo "Using unstable package repositories!"                                       ;\
+        dnf install -y $REPO_PREFIX/unstable/$REPO_SUFFIX                                 ;\
+        dnf config-manager --enable Globus-Connect-Server-5-Unstable                      ;\
+        dnf config-manager --disable Globus-Connect-Server-5-Stable                       ;\
+    elif [ -n "$USE_TESTING_REPOS" ]; then                                                 \
+        echo "Using testing package repositories!"                                        ;\
+        dnf install -y $REPO_PREFIX/testing/$REPO_SUFFIX                                  ;\
+        dnf config-manager --enable Globus-Connect-Server-5-Testing                       ;\
+        dnf config-manager --disable Globus-Connect-Server-5-Stable                       ;\
+    else                                                                                   \
+        echo "Using stable package repositories!"                                         ;\
+        dnf install -y $REPO_PREFIX/stable/$REPO_SUFFIX                                   ;\
+    fi                                                                                    ;\
+    dnf clean all                                                                         ;\
+    dnf install -y globus-connect-server54
 
 COPY entrypoint.sh /entrypoint.sh
 
