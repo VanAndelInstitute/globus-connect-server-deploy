@@ -1,22 +1,28 @@
 version: '3.4'
 
-#x-variables:
-#    - &globus-ids
-#        GLOBUS_CLIENT_ID:     # from ./.env
-#        GLOBUS_CLIENT_SECRET: # from ./.env
-#        DEPLOYMENT_KEY:       # from ./.env
-
 services:
    globus:
       environment:
          - NODE_SETUP_ARGS= -i 155.130.133.58
       container_name: globus_server
       image: vanandelinstitute/globusconnectserver
+#ZR DEBUG      entrypoint: /usr/bin/sleep
+#ZR DEBUG      command: ['7200']
+      
       network_mode: host
+# ZR This would probably work, but was not the vendor default.
+#      network_mode: bridge
+#      ports:
+#         - 50000-51000:50000-51000
+#         - 443:443
       env_file:
-       - 'globus.env'
+         - 'globus.env'
       volumes:
          - /data/globus/data:/data
          - /data/globus/logs:/logs
-
+         - /etc/krb5.conf:/etc/krb5.conf
+         - /etc/pam.d:/etc/pam.d
+         - /etc/authselect:/etc/authselect
+         - /var/lib/sss/pipes:/var/lib/sss/pipes
+         - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
