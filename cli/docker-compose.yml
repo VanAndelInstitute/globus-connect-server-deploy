@@ -1,0 +1,20 @@
+version: '3.4'
+
+services:
+   globus:
+      container_name: globus_cli
+      image: vanandelinstitute/globusconnectcli
+      
+      network_mode: bridge
+      env_file:
+         - 'globus.env'
+      volumes:
+#         - /data/globus/data:/data
+         - /varidata/researchtemp/collab:/data
+         - /data/globus/logs:/logs
+         - /etc/krb5.conf:/etc/krb5.conf
+         - /etc/pam.d:/etc/pam.d
+         - /etc/authselect:/etc/authselect
+         - /var/lib/sss/pipes:/var/lib/sss/pipes
+         - /sys/fs/cgroup:/sys/fs/cgroup:ro
+
