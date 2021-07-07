@@ -10,8 +10,8 @@ services:
          - 'globus.env'
       volumes:
 #         - /data/globus/data:/data
-         - /varidata/researchtemp/collab:/data
-         - /data/globus/logs:/logs
+#         - /varidata/researchtemp/collab:/data
+#         - /data/globus/logs:/logs
          - /etc/krb5.conf:/etc/krb5.conf
          - /etc/pam.d:/etc/pam.d
          - /etc/authselect:/etc/authselect
