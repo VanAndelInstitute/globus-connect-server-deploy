@@ -19,7 +19,7 @@ services:
          - 'globus.env'
       volumes:
 #         - /data/globus/data:/data
-         - /varidata/research/collab:/data
+         - /varidata/researchtemp/collab:/data
          - /data/globus/logs:/logs
          - /etc/krb5.conf:/etc/krb5.conf
          - /etc/pam.d:/etc/pam.d
