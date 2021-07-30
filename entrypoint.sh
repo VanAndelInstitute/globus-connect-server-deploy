@@ -16,11 +16,17 @@
 # $NODE_SETUP_ARGS = optional args for 'node setup' (ex. --ip-address)
 # $GLOBUS_SDK_ENVIRONMENT = optional development environment
 
+if [ ! -z "$GCS_MANAGER_LOG_LEVEL" ]
+then
+    echo GCS_MANAGER_LOG_LEVEL=DEBUG > /etc/sysconfig/gcs_manager    
+fi
+
 if [ -z "$GLOBUS_CLIENT_ID" ]
 then
     echo "Missing environment variable 'GLOBUS_CLIENT_ID'. Exitting."
     exit 1
 fi
+
 
 if [ -z "$GLOBUS_CLIENT_SECRET" ]
 then
