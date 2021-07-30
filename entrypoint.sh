@@ -108,7 +108,7 @@ ln -s /run/gcs_manager/sock /run/gcs_manager.sock
 	--daemon                                      \
 	--bind=unix:/run/gcs_manager/sock             \
 	--pid /run/gcs_manager/pid                    \
-	--log-level=debug
+	--log-level debug
 )
 
 # Wait for the pid file which signals successful launch
