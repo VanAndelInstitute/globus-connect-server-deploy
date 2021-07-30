@@ -107,7 +107,8 @@ ln -s /run/gcs_manager/sock /run/gcs_manager.sock
 	--preload api_app                             \
 	--daemon                                      \
 	--bind=unix:/run/gcs_manager/sock             \
-	--pid /run/gcs_manager/pid
+	--pid /run/gcs_manager/pid                    \
+	--log-level=debug
 )
 
 # Wait for the pid file which signals successful launch
