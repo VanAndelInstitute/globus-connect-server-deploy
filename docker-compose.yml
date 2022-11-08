@@ -2,10 +2,10 @@ version: '3.4'
 
 services:
    globus:
-      environment:
-         - NODE_SETUP_ARGS= -i 198.110.167.58
+#      environment:
+#         - NODE_SETUP_ARGS= -i 198.110.167.58
       container_name: globus_server
-      image: vanandelinstitute/globusconnectserver
+      image: vanandelinstitute/globusconnectserver:4
 #ZR DEBUG      entrypoint: /usr/bin/sleep
 #ZR DEBUG      command: ['7200']
       
@@ -27,3 +27,4 @@ services:
          - /var/lib/sss/pipes:/var/lib/sss/pipes
          - /sys/fs/cgroup:/sys/fs/cgroup:ro
 
+#      entrypoint: ["/usr/bin/sleep", "10000"]
