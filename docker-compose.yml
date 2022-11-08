@@ -3,7 +3,7 @@ version: '3.4'
 services:
    globus:
       environment:
-         - NODE_SETUP_ARGS= -i 155.130.133.58
+         - NODE_SETUP_ARGS= -i 198.110.167.58
       container_name: globus_server
       image: vanandelinstitute/globusconnectserver
 #ZR DEBUG      entrypoint: /usr/bin/sleep
