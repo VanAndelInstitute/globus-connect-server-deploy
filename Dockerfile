@@ -1,4 +1,4 @@
-FROM centos:8
+FROM rockylinux/rockylinux:8
 
 LABEL maintainer="support@globus.org"
 
